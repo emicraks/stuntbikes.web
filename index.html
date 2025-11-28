@@ -1,0 +1,552 @@
+<html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StuntBikes - Historia y Catálogo</title>
+  <style>
+    :root{
+      --bg: #000000;
+      --neon: #00e676; /* verde fosforescente */
+      --white: #ffffff;
+      --muted: #bdbdbd;
+      --card-bg: #0f0f0f;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 12px;
+      font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    /* Container */
+    .wrap{
+      max-width:1100px;
+      margin:30px auto;
+      padding:28px;
+    }
+
+    /* Header / Hero */
+    header{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:28px;
+    }
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+    .logo{
+      width:92px;
+      height:92px;
+      border-radius:12px;
+      background:linear-gradient(180deg,#0b0b0b,var(--card-bg));
+      box-shadow:0 6px 18px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:3px solid rgba(0,0,0,0.2);
+      position:relative;
+    }
+    .logo::after{
+      content:"";
+      position:absolute;
+      left:6px; right:6px; top:6px; bottom:6px;
+      border-radius:8px;
+      box-shadow:0 0 22px rgba(0,230,118,0.12);
+    }
+    .logo h1{
+      margin:0;
+      font-size:20px;
+      color:var(--white);
+      letter-spacing:0.6px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+    }
+    .title h2{
+      margin:0;
+      font-size:26px;
+      color:var(--white);
+      letter-spacing:0.6px;
+    }
+    .title p{
+      margin:4px 0 0 0;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    /* Controls */
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn{
+      background:transparent;
+      color:var(--white);
+      border:2px solid rgba(255,255,255,0.06);
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .18s ease;
+      text-decoration:none;
+    }
+    .btn:hover{ transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.6);}
+    .btn.neon{
+      background:linear-gradient(90deg,var(--neon),#00c86b);
+      color:#021202;
+      border:none;
+      box-shadow:0 6px 28px rgba(0,230,118,0.09), 0 0 14px rgba(0,230,118,0.06) inset;
+    }
+    .btn.ghost{
+      background:transparent;
+      border:2px solid rgba(0,230,118,0.12);
+      color:var(--neon);
+    }
+
+    main{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:28px;
+      align-items:start;
+    }
+
+    /* Left: content */
+    .card{
+      background:var(--card-bg);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(0,230,118,0.06);
+    }
+    .welcome{
+      padding:18px;
+      margin-bottom:12px;
+      background:linear-gradient(180deg, rgba(0,230,118,0.02), transparent);
+      border-radius:10px;
+      border:1px solid rgba(0,230,118,0.04);
+    }
+    .welcome h3{ margin:0 0 8px 0; color:var(--neon); }
+    .welcome p{ margin:0; color:var(--white); opacity:0.95; }
+
+    .catalog-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .product{
+      background:var(--glass);
+      padding:12px;
+      border-radius:10px;
+      text-align:center;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .product img{
+      width:100%;
+      height:90px;
+      object-fit:cover;
+      border-radius:8px;
+      margin-bottom:8px;
+      background:linear-gradient(90deg,#0a0a0a,#121212);
+    }
+    .product h4{ margin:6px 0; font-size:14px; color:var(--white); }
+    .product p{ margin:0; font-size:12px; color:var(--muted); }
+
+    /* Right: QR + nav */
+    aside{
+      position:sticky;
+      top:30px;
+      align-self:start;
+    }
+    .qr-card{
+      background:linear-gradient(180deg,#090909,#0f0f0f);
+      padding:18px;
+      border-radius:12px;
+      text-align:center;
+      border: 2px solid rgba(0,230,118,0.06);
+    }
+    .qr-card h4{ margin:0 0 10px 0; color:var(--white); font-size:16px; }
+    .qr{
+      width:210px;
+      height:210px;
+      margin:0 auto 12px auto;
+      border-radius:10px;
+      display:block;
+      background:#fff;
+      padding:6px;
+    }
+    .qr img{ display:block; width:100%; height:100%; object-fit:contain; border-radius:8px; }
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* Section anchors */
+    section{ margin-top:18px; }
+    section h3{ color:var(--neon); margin:0 0 12px 0; }
+    .section-list{
+      display:grid;
+      gap:12px;
+    }
+    .item-row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      padding:12px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .item-row .meta{ color:var(--muted); }
+    .item-row .buy{
+      background:var(--neon);
+      color:#021202;
+      padding:8px 12px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    /* Footer */
+    footer{
+      margin-top:26px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Responsive */
+    @media (max-width:980px){
+      main{ grid-template-columns: 1fr; }
+      aside{ position:relative; top:auto; }
+      .catalog-grid{ grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width:560px){
+      .catalog-grid{ grid-template-columns: 1fr; }
+      .logo{ width:64px; height:64px; }
+      .title h2{ font-size:20px; }
+    }
+
+    /* Modal quick view */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0.6);
+      z-index:9999;
+    }
+    .modal.open{ display:flex; }
+    .modal .panel{
+      width:min(820px,92%);
+      background:linear-gradient(180deg,#050505,#0b0b0b);
+      border-radius:12px;
+      padding:18px;
+      border:2px solid rgba(0,230,118,0.08);
+      box-shadow:0 40px 120px rgba(0,0,0,0.8);
+    }
+    .modal .panel header{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .modal .panel .close{
+      background:transparent;border:none;color:var(--muted);font-weight:700;font-size:18px;cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <h1>SB</h1>
+        </div>
+        <div class="title">
+          <h2>StuntBikes</h2>
+          <p>Adrenalina sobre dos ruedas — catálogo oficial</p>
+        </div>
+      </div>
+
+      <div class="controls" role="navigation" aria-label="acciones">
+        <a class="btn ghost" href="#catalog">Ver catálogo</a>
+        <a class="btn" href="#history">Historia</a>
+        <button class="btn neon" id="open-qr">Abrir QR</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT: Content -->
+      <div>
+        <!-- Welcome -->
+        <div class="card welcome" id="history">
+          <h3>Bienvenido a StuntBikes</h3>
+          <p>
+            StuntBikes nace del deseo de riders que viven al límite. Aquí encontrarás piezas resistentes,
+            livianas y con diseño pensado para la acción: asientos, rines y accesorios fabricados para durar.
+          </p>
+        </div>
+
+        <!-- Short Story -->
+        <div class="card" aria-labelledby="story-title">
+          <h3 id="story-title" style="color:var(--neon); margin-top:0;">Historia breve</h3>
+          <p style="color:var(--white); opacity:0.95;">
+            StuntBikes surgió en un taller pequeño donde prototipos hechos a mano se probaron en calles y parques.
+            Cada caída fue una lección: cada mejora, un avance. Hoy somos una comunidad que diseña para quien
+            vive la adrenalina. Nuestros colores: negro, verde fosforescente y blanco.
+          </p>
+
+          <!-- quick catalog preview -->
+          <div style="margin-top:14px;">
+            <h4 style="color:var(--muted); margin:0 0 8px 0;">Productos destacados</h4>
+            <div class="catalog-grid" id="catalog">
+              <!-- Item 1 -->
+              <div class="product">
+                <img src="data:image/svg+xml;utf8,
+                  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'>
+                    <rect width='100%' height='100%' fill='%230b0b0b' />
+                    <text x='50%' y='50%' font-size='22' fill='%23ffffff' dominant-baseline='middle' text-anchor='middle'>Asiento Stunt</text>
+                  </svg>" alt="Asiento Stunt">
+                <h4>Asiento Stunt</h4>
+                <p>Confort reforzado para saltos y trucos.</p>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="product">
+                <img src="data:image/svg+xml;utf8,
+                  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'>
+                    <rect width='100%' height='100%' fill='%230b0b0b' />
+                    <text x='50%' y='50%' font-size='22' fill='%23ffffff' dominant-baseline='middle' text-anchor='middle'>Rin Pro</text>
+                  </svg>" alt="Rin Pro">
+                <h4>Rin Pro</h4>
+                <p>Rines reforzados, peso optimizado.</p>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="product">
+                <img src="data:image/svg+xml;utf8,
+                  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'>
+                    <rect width='100%' height='100%' fill='%230b0b0b' />
+                    <text x='50%' y='50%' font-size='22' fill='%23ffffff' dominant-baseline='middle' text-anchor='middle'>Grip Pro</text>
+                  </svg>" alt="Grip Pro">
+                <h4>Grip Pro</h4>
+                <p>Agarre antideslizante para el manubrio.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sections: Seats, Rims, Accessories -->
+        <div class="card" style="margin-top:16px;">
+          <section id="seats">
+            <h3>Asientos</h3>
+            <div class="section-list">
+              <div class="item-row">
+                <div>
+                  <strong>Asiento Stunt</strong><div class="meta">Ref: SB-01 • Peso reducido</div>
+                </div>
+                <div><button class="buy">Comprar</button></div>
+              </div>
+
+              <div class="item-row">
+                <div>
+                  <strong>Asiento Enduro</strong><div class="meta">Ref: SB-02 • Con gel</div>
+                </div>
+                <div><button class="buy">Comprar</button></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="rims" style="margin-top:16px;">
+            <h3>Rines</h3>
+            <div class="section-list">
+              <div class="item-row">
+                <div>
+                  <strong>Rin Pro 26"</strong><div class="meta">Ref: R-26P • 32 radios</div>
+                </div>
+                <div><button class="buy">Comprar</button></div>
+              </div>
+
+              <div class="item-row">
+                <div>
+                  <strong>Rin Lite 24"</strong><div class="meta">Ref: R-24L • Peso ultraligero</div>
+                </div>
+                <div><button class="buy">Comprar</button></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="accessories" style="margin-top:16px;">
+            <h3>Accesorios</h3>
+            <div class="section-list">
+              <div class="item-row">
+                <div>
+                  <strong>Grip Pro</strong><div class="meta">Ref: A-01 • Antideslizante</div>
+                </div>
+                <div><button class="buy">Comprar</button></div>
+              </div>
+
+              <div class="item-row">
+                <div>
+                  <strong>Pedal Xtreme</strong><div class="meta">Ref: A-02 • Plataforma ancha</div>
+                </div>
+                <div><button class="buy">Comprar</button></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer>
+          © <span id="year"></span> StuntBikes — Diseñado para riders.
+        </footer>
+      </div>
+
+      <!-- RIGHT: QR and quick nav -->
+      <aside>
+        <div class="qr-card card">
+          <h4>Entra rápido con QR</h4>
+          <div class="qr" id="qr-placeholder" title="QR: escanea para abrir la página">
+            <!-- QR img inserted by JavaScript -->
+          </div>
+          <p class="small">Escanea con tu teléfono para visitar esta página desde tu móvil.</p>
+          <div style="margin-top:12px; display:flex; gap:8px; justify-content:center;">
+            <a class="btn" href="#catalog">Catálogo</a>
+            <a class="btn" href="#seats">Asientos</a>
+            <a class="btn ghost" href="#rims">Rines</a>
+          </div>
+        </div>
+
+        <div style="height:14px;"></div>
+
+        <div class="card" style="border:1px solid rgba(0,230,118,0.04); margin-top:12px;">
+          <h4 style="color:var(--neon); margin:0 0 10px 0;">Acceso rápido</h4>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <a class="btn neon" href="#accessories">Ver accesorios</a>
+            <button class="btn" id="download-catalog">Descargar catálogo (PDF)</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Modal (QR large / quick product) -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="panel" role="document">
+      <header>
+        <strong style="color:var(--white);">QR - Abrir en dispositivo</strong>
+        <button class="close" id="close-modal">Cerrar ✕</button>
+      </header>
+
+      <div style="display:flex; gap:18px; align-items:center; margin-top:16px; flex-wrap:wrap;">
+        <div style="flex:0 0 260px;">
+          <div style="background:#fff; padding:12px; border-radius:12px; text-align:center;">
+            <img id="modal-qr" src="" alt="QR grande" style="width:220px;height:220px;">
+          </div>
+        </div>
+
+        <div style="flex:1; color:var(--muted);">
+          <h4 style="margin:0 0 8px 0; color:var(--neon);">Abre esta página en tu teléfono</h4>
+          <p style="margin:0;">
+            Escanea el código con la cámara o una app de lectura QR. Esto abrirá la misma URL de la página
+            en tu dispositivo móvil para navegación y compra.
+          </p>
+          <p style="margin-top:12px; color:var(--white);">Consejo: pulsa el botón "Descargar catálogo (PDF)" para obtener la lista completa en un archivo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Build a Google Chart API QR code for current page (dynamic)
+    function buildQR(url, size){
+      // use Google Chart API (simple reliable endpoint). If you prefer local/offline generation,
+      // replace with your own data-URI or library.
+      var encoded = encodeURIComponent(url);
+      size = size || 300;
+      return 'https://chart.googleapis.com/chart?cht=qr&chs=' + size + 'x' + size + '&chl=' + encoded + '&chld=L|1';
+    }
+
+    // Insert small QR in right column (200x200)
+    (function insertSmallQR(){
+      var qrBox = document.getElementById('qr-placeholder');
+      var img = document.createElement('img');
+      img.alt = "QR para esta página";
+      img.src = buildQR(location.href, 210);
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', openModal);
+      qrBox.appendChild(img);
+    })();
+
+    // Modal logic
+    var modal = document.getElementById('modal');
+    var modalQR = document.getElementById('modal-qr');
+    var openBtn = document.getElementById('open-qr');
+    var closeBtn = document.getElementById('close-modal');
+
+    function openModal(){
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      modalQR.src = buildQR(location.href, 600);
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      modalQR.src = '';
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){
+      if(e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeModal();
+    });
+
+    // Download catalog button - for demo it generates a simple text-based PDF-like file (Blob)
+    document.getElementById('download-catalog').addEventListener('click', function(){
+      var text = `
+        CATALOGO STUNTBIKES - EJEMPLO
+        ----------------------------
+        1) Asiento Stunt - Ref SB-01 - $$
+        2) Rin Pro 26" - Ref R-26P - $$
+        3) Grip Pro - Ref A-01 - $$
+        (Este es un catálogo de ejemplo. Reemplaza con tu PDF real.)
+      `;
+      var blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'catalogo-stuntbikes.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=> URL.revokeObjectURL(url), 1500);
+    });
+
+    // Small UX: buy buttons -> quick alert (demo)
+    document.querySelectorAll('.buy').forEach(function(b){
+      b.addEventListener('click', function(){
+        alert('Agregar al carrito (demo). En la versión real conectaría a checkout.');
+      });
+    });
+
+    // Set ARIA focus trap / improvements could be added later.
+  </script>
+</body>
+</html>
