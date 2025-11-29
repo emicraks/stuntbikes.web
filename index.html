@@ -156,7 +156,7 @@
     }
     .product img{
       width:100%;
-      height:90px;
+      height:160px;
       object-fit:cover;
       border-radius:8px;
       margin-bottom:8px;
@@ -314,33 +314,24 @@
             <div class="catalog-grid" id="catalog">
               <!-- Item 1 -->
               <div class="product">
-                <img src="data:image/svg+xml;utf8,
-                  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'>
-                    <rect width='100%' height='100%' fill='%230b0b0b' />
-                    <text x='50%' y='50%' font-size='22' fill='%23ffffff' dominant-baseline='middle' text-anchor='middle'>Asiento Stunt</text>
-                  </svg>" alt="Asiento Stunt">
+                <!-- reemplazado por imagen real -->
+                <img src="seat.png" alt="Asiento Stunt">
                 <h4>Asiento Stunt</h4>
                 <p>Confort reforzado para saltos y trucos.</p>
               </div>
 
               <!-- Item 2 -->
               <div class="product">
-                <img src="data:image/svg+xml;utf8,
-                  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'>
-                    <rect width='100%' height='100%' fill='%230b0b0b' />
-                    <text x='50%' y='50%' font-size='22' fill='%23ffffff' dominant-baseline='middle' text-anchor='middle'>Rin Pro</text>
-                  </svg>" alt="Rin Pro">
+                <!-- reemplazado por imagen real -->
+                <img src="rinpro.png" alt="Rin Pro">
                 <h4>Rin Pro</h4>
                 <p>Rines reforzados, peso optimizado.</p>
               </div>
 
               <!-- Item 3 -->
               <div class="product">
-                <img src="data:image/svg+xml;utf8,
-                  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='200'>
-                    <rect width='100%' height='100%' fill='%230b0b0b' />
-                    <text x='50%' y='50%' font-size='22' fill='%23ffffff' dominant-baseline='middle' text-anchor='middle'>Grip Pro</text>
-                  </svg>" alt="Grip Pro">
+                <!-- reemplazado por imagen real -->
+                <img src="grippro.png" alt="Grip Pro">
                 <h4>Grip Pro</h4>
                 <p>Agarre antideslizante para el manubrio.</p>
               </div>
@@ -418,7 +409,8 @@
         <div class="qr-card card">
           <h4>Entra rápido con QR</h4>
           <div class="qr" id="qr-placeholder" title="QR: escanea para abrir la página">
-            <!-- QR img inserted by JavaScript -->
+            <!-- colocamos la imagen QR local directamente -->
+            <img src="qr-stuntbikes.png" alt="QR StuntBikes" />
           </div>
           <p class="small">Escanea con tu teléfono para visitar esta página desde tu móvil.</p>
           <div style="margin-top:12px; display:flex; gap:8px; justify-content:center;">
@@ -452,7 +444,7 @@
       <div style="display:flex; gap:18px; align-items:center; margin-top:16px; flex-wrap:wrap;">
         <div style="flex:0 0 260px;">
           <div style="background:#fff; padding:12px; border-radius:12px; text-align:center;">
-            <img id="modal-qr" src="" alt="QR grande" style="width:220px;height:220px;">
+            <img id="modal-qr" src="qr-stuntbikes.png" alt="QR grande" style="width:220px;height:220px;">
           </div>
         </div>
 
@@ -472,10 +464,8 @@
     // Set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Build a Google Chart API QR code for current page (dynamic)
+    // Build a Google Chart API QR code for current page (dynamic) - kept as fallback
     function buildQR(url, size){
-      // use Google Chart API (simple reliable endpoint). If you prefer local/offline generation,
-      // replace with your own data-URI or library.
       var encoded = encodeURIComponent(url);
       size = size || 300;
       return 'https://chart.googleapis.com/chart?cht=qr&chs=' + size + 'x' + size + '&chl=' + encoded + '&chld=L|1';
@@ -483,13 +473,21 @@
 
     // Insert small QR in right column (200x200)
     (function insertSmallQR(){
+      // We already placed a local img in the HTML (#qr-placeholder contains the img),
+      // but keep this code to optionally replace or add behavior.
       var qrBox = document.getElementById('qr-placeholder');
-      var img = document.createElement('img');
-      img.alt = "QR para esta página";
-      img.src = buildQR(location.href, 210);
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', openModal);
-      qrBox.appendChild(img);
+      var existing = qrBox.querySelector('img');
+      if(existing){
+        existing.style.cursor = 'zoom-in';
+        existing.addEventListener('click', openModal);
+      } else {
+        var img = document.createElement('img');
+        img.alt = "QR para esta página";
+        img.src = 'qr-stuntbikes.png'; // local QR image
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', openModal);
+        qrBox.appendChild(img);
+      }
     })();
 
     // Modal logic
@@ -501,12 +499,14 @@
     function openModal(){
       modal.classList.add('open');
       modal.setAttribute('aria-hidden','false');
-      modalQR.src = buildQR(location.href, 600);
+      // usamos la imagen local para mostrar el QR grande
+      modalQR.src = 'qr-stuntbikes.png';
     }
     function closeModal(){
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden','true');
-      modalQR.src = '';
+      // opcional limpiar src para liberar memoria en móviles
+      // modalQR.src = '';
     }
 
     openBtn.addEventListener('click', openModal);
